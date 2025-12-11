@@ -19,8 +19,8 @@ class Impersonate extends Action
         $this
             ->label(__('filament-impersonate::action.label'))
             ->icon('impersonate-icon')
-            ->action(fn ($record) => $this->impersonate($record))
-            ->hidden(fn ($record) => !$this->canBeImpersonated($record));
+            ->action(fn($record) => $this->impersonate($record))
+            ->hidden(fn($record) => !$this->canBeImpersonated($record));
     }
 
     protected Closure|string|null $guard = null;
@@ -85,6 +85,11 @@ class Impersonate extends Action
 
     public function impersonate($record): bool|Redirector|RedirectResponse
     {
+
+        if ($this->getImpersonateRecord()) {
+            $record = $this->getImpersonateRecord();
+        }
+
         if (!$this->canBeImpersonated($record)) {
             return false;
         }
