@@ -29,6 +29,8 @@ class Impersonate extends Action
 
     protected Closure|string|null $backTo = null;
 
+    protected Closure|null $impersonateRecord = null;
+
     public static function getDefaultName(): ?string
     {
         return 'impersonate';
@@ -101,4 +103,15 @@ class Impersonate extends Action
         return redirect($this->getRedirectTo());
     }
 
+    public function setImpersonateRecord(Closure $record): static
+    {
+        $this->impersonateRecord = $record;
+
+        return $this;
+    }
+
+    public function getImpersonateRecord()
+    {
+        return $this->evaluate($this->impersonateRecord);
+    }
 }
